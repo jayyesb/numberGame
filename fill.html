@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+	<head>
+	<title>Test</title>
+		<meta charset="utf-8"/>
+		<meta name="description" content="This is a Math Game"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="fillscript.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="fillstyle.css"/>
+    </head>
+
+    <body onload="loadQuestion();">
+        <main>
+            <header>
+                <h3>English</h3>
+                <p id="score">Score is 0</p>
+            </header>
+
+            <section>
+                <p id="qElm">Question <span id="no">1</span></p>
+                <content id="question">
+                    <p id="quesText"></p>
+                </content>
+            </section>
+
+            <footer>
+                <p id="ans1" draggable="true" ondragstart="drag(event);">Australia</p>
+                <p id="ans2" draggable="true" ondragstart="drag(event);">memorial</p>
+                <p id="ans3" draggable="true" ondragstart="drag(event);">Cured off</p>
+                <p id="ans4" draggable="true" ondragstart="drag(event);">Library</p>
+                <p id="ans5" draggable="true" ondragstart="drag(event);">Cholera</p>
+                <p id="ans6" draggable="true" ondragstart="drag(event);">Mexico</p>
+                <p id="ans7" draggable="true" ondragstart="drag(event);">upset</p>
+                <p id="ans8" draggable="true" ondragstart="drag(event);">London</p>
+                <p id="ans9" draggable="true" ondragstart="drag(event);">Hospital</p>
+                <p id="ans10" draggable="true" ondragstart="drag(event);">Dengue</p>
+                <p id="ans11" draggable="true" ondragstart="drag(event);">infected by</p>
+                <p id="ans12" draggable="true" ondragstart="drag(event);">Flu</p>
+                <p id="ans13" draggable="true" ondragstart="drag(event);">ஆப்பிள்</p>
+            </footer>
+
+
+            <button onclick="moveNext();">Next Question</button>
+
+        </main>
+    </body>
+</html>

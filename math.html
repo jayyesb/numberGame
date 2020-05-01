@@ -1,0 +1,345 @@
+<!doctype html>
+<html>
+
+	<head>
+	<title>Sum Up !</title>
+		<meta charset="utf-8"/>
+		<meta name="description" content="This is a Math Game"/>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+	*{
+	margin:0px;
+	padding:0px;
+	}
+	
+	
+	
+	body
+	{
+	font-family:roboto;
+	background-color:#373A36;
+	color:#FAF0DC;
+	min-height: 100vh;
+	}
+	
+	main{
+    max-width:340px;
+    min-height:100vh;
+	margin:0px auto;
+	}
+	
+	div#header{
+		margin:0px;
+		padding:0px;
+		width:100%;
+		margin-bottom:2em;
+	}
+	
+	div#header p{
+		width:100%;
+		height:40%;
+		margin-top:10%;
+		text-align:center;
+		font-family:verdana;
+		font-size:90%;
+	}
+	
+	div#workspace{
+		width:100%;
+		height:340px;
+		padding:0px;
+	}
+	
+	div#panel{
+		width:100%;
+		height:9%;
+		margin-top:1em;
+	}
+	
+	div#panel p{
+		width:100%;
+		height:100%;
+		text-align:center;
+		font-size:120%;
+		
+	}
+
+
+</style>	
+	</head>
+	
+	
+	<body onload="init();">
+	<main>
+	
+	<div id="header">
+			<p id="name" style="font-size:200%;line-height:40px;">Sum Up !</p>
+			<p id="preface" style="line-height:20px;">Click any two numbers that yield 10 as their SUM. Selecting wrong pairs may cause negative marks</p>
+		</div>
+	
+	<div id="workspace">
+		<canvas id="game" style="display:block;margin:0px auto;">
+			Game Goes Here ...
+		</canvas>
+	</div>	
+		<div id="panel">
+			<p id="scoreDiv">Score is : 0</p>
+		</div>
+	</main>	
+		<script type="text/javascript">
+		
+		
+		var canvasElement=document.getElementById("game");
+		var context=canvasElement.getContext("2d");	
+		
+		var workspace=document.getElementById("workspace");
+		var workspaceWidth=workspace.offsetWidth;
+		var workspaceHeight=workspace.offsetHeight;
+		
+		console.log(workspaceWidth+","+workspaceHeight);
+		canvasElement.width=workspaceWidth;
+		canvasElement.height=workspaceHeight;
+		
+		var ctx = new AudioContext()
+		
+		
+		
+		var cW=canvasElement.width;
+		var cH=canvasElement.height;
+		
+		var bW=(cW-15)/4;
+		var bH=(cH-15)/4;
+		
+		var dT=workspace.getBoundingClientRect().top;
+		var dL=workspace.getBoundingClientRect().left;
+		
+		console.log(dT+","+dL);
+		
+		console.log(bW+","+bH);
+		var scoreElement=document.getElementById("scoreDiv");
+		
+		var blocks=[];
+		var block;
+		var tileLength=16;
+		var tX=2,tY=2;
+		var mX,mY;
+		var gravity=10;
+		
+		var ip1=0,ip2=0;
+		var ci1=-1;ci2=-1;
+		var res=0;
+		var score=0;
+		
+		var b1,b2;
+		
+		var isClicked=false;
+		
+		canvasElement.addEventListener("click",handleClicks,false);
+		
+		function Block()
+		{
+			this.x=0;
+			this.y=0;
+			this.w=bW;
+			this.h=bH;
+			this.n=0;
+			
+			this.tarY=0;
+			this.grounded=false;
+			
+			this.generate=function()
+			{
+				var x=Math.floor(Math.random()*2);
+				if(x==0)
+				{
+					this.n=Math.ceil(Math.random()*5)+4;
+				}else if(x==1)
+				{
+					this.n=Math.ceil(Math.random()*5);
+				}
+			}
+			
+			this.draw=function()
+			{
+				context.beginPath();
+				context.strokeStyle="black";
+				context.fillStyle="#D48166";
+				context.fillRect(this.x,this.y,this.w,this.h);
+				context.stroke();
+				
+				context.fillStyle="#18181E";
+				context.font="40pt calibri";
+				context.fillText(this.n+"",this.x+bW/2-20,this.y+bH/2);
+			}
+		}
+		
+		function init()
+		{
+			block=new Block();
+			block.x=100;
+			block.y=100;
+			
+			createTiles();
+			
+			update();
+		}
+		
+		function update()
+		{
+			requestAnimationFrame(update);
+			
+			for(i=0;i<blocks.length;i++)
+			{
+				if(blocks[i]!=null)
+				{
+					if(blocks[i].y>=blocks[i].tarY)
+					{
+						blocks[i].grounded=true;
+					}
+				}
+			}
+			
+			for(i=0;i<blocks.length;i++)
+			{
+				if(blocks[i]!=null)
+				{
+					if(!blocks[i].grounded)
+					{
+						blocks[i].y+=gravity;
+					}
+				}
+			}
+			
+			
+			if(ip1!=0 && ip2!=0)
+			{
+				res=ip1+ip2;
+				if(res==10)
+				{
+					delete blocks[ci1];
+					delete blocks[ci2];
+					score++;
+					
+					
+					blocks.push(b1);
+					blocks.push(b2);
+					
+					var o = ctx.createOscillator();
+					var  g = ctx.createGain();
+					o.connect(g);
+					g.connect(ctx.destination);
+					o.start(0);
+					g.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.1);
+					
+					
+				}else
+				{
+					score--;
+				}
+					ip1=0;
+					ip2=0;
+					res=0;
+					ci1=0;
+					ci2=0;
+			}
+
+				
+				console.log(blocks.length);
+				render();
+		}
+		
+		
+		
+		function render()
+		{
+			if(score>=10)
+			{
+				console.log("Game Over");
+				context.clearRect(0,0,cW,cH);
+				context.fillStyle="#D48166";
+				context.fillRect(0,0,cW,cH);
+				context.fillStyle="#18181E";
+				context.fillText("You Won",canvasElement.width/2-100,canvasElement.height/2-50);
+				scoreElement.innerHTML="Score is "+score;
+			}else
+			{
+			context.clearRect(0,0,cW,cH);
+			for(i=0;i<blocks.length;i++)
+			{
+				if(blocks[i]!=null)
+				{
+				blocks[i].draw();
+				}
+			}
+			scoreElement.innerHTML="Score is "+score;
+			
+			}
+		}
+		
+		function createTiles()
+		{
+			for(i=0;i<tileLength;i++)
+			{
+				block=new Block();
+				block.x=tX;
+				block.tarY=tY;
+				block.y=tY-620;
+				tX+=bW+5;
+				if(tX>=cW)
+				{
+					tX=2;
+					tY+=bH+5;
+				}
+				block.generate();
+				blocks.push(block);
+			}
+		}
+		
+		function handleClicks(event)
+		{
+			mX=event.clientX-canvasElement.offsetLeft;
+			mY=event.clientY-canvasElement.offsetTop;
+			
+			for(i=0;i<blocks.length;i++)
+			{
+				if(blocks[i]!=null)
+				{
+				if(mX>=blocks[i].x && mX<=blocks[i].x+blocks[i].w
+			&& mY>=blocks[i].y && mY<=blocks[i].y+blocks[i].h)
+				{
+					if(ip1==0)
+					{
+						ip1=blocks[i].n;
+						ci1=i;
+						b1=new Block();
+						b1.x=blocks[i].x;
+						b1.y=blocks[i].y-620;
+						b1.tarY=blocks[i].y;
+						b1.generate();
+						console.log(ci1);
+						break;
+					}else if(ip1!=0 && ip2==0)
+					{
+						ip2=blocks[i].n;				
+						ci2=i;
+						b2=new Block();
+						b2.x=blocks[i].x;
+						b2.y=blocks[i].y-620;
+						b2.tarY=blocks[i].y
+						b2.generate();
+						console.log(ci2);
+						break;
+					}
+					
+				}
+				}
+				
+			}
+			
+		}
+
+		</script>
+	
+	</body>
+
+</html>

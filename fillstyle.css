@@ -1,0 +1,109 @@
+*{
+    margin:0px;
+    padding:0px;
+}
+
+body{
+    min-height: 100vh;
+}
+
+main{
+    max-width:340px;
+    min-height:100vh;
+    background-color: khaki;
+    margin:0px auto;
+}
+
+span{
+    display: inline-block;
+}
+
+header{
+    width:100%;
+    height:20%;
+}
+
+header h3{
+    width:100%;
+    height:14%;
+    background-color: lightseagreen;
+    text-align:center;
+    line-height: 50px;
+}
+
+header p{
+    padding-left:1em;
+    height:6%;
+}
+
+section{
+    width:100%;
+    height:50%;
+    background-color: mediumaquamarine;
+}
+
+section p{
+    text-align: center;
+    padding: 0.4em;
+    height:20%;
+    font-size: 150%;
+}
+
+section p#green{
+    color:rgb(2, 61, 2);
+    background-color: rgb(185, 174, 174);
+    border-radius: 10px;
+    width: auto;
+    margin:0px auto;
+    margin-top:1em;
+    padding: 0.2em;
+    font-size:100%;
+    font-weight: bold;
+}
+
+section p#red{
+    color: darkred;
+    background-color: rgb(185, 174, 174);
+    border-radius: 10px;
+    width: auto;
+    margin:0px auto;
+    margin-top:1em;
+    padding: 0.2em;
+    font-size:100%;
+    font-weight: bold;
+}
+
+section p#ques{
+    text-align: left;
+    margin-left:1em;
+    line-height:3em;
+}
+
+footer{
+    width:100%;
+    height:20%;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+footer p{
+    margin:0.5em;
+    font-size:100%;
+    padding:0.5em;
+    border-radius: 10px;
+    background-color: tomato;
+    text-align: center;
+    cursor: pointer;
+    color: darkred;
+}
+
+button{
+    display: block;
+    padding:0.5em;
+    margin:1em auto;
+    border:none;
+    background-color: forestgreen;
+    color: ghostwhite;
+
+}
